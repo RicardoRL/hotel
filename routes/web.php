@@ -12,7 +12,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', function () {
     return view('layouts.home');
-});
+})->name('inicio');
+
+Route::post('/verificar', 'HotelController@disponibilidad')->name('hotel.disponibilidad');
+Route::get('/cliente', 'HotelController@showClientForm')->name('hotel.form');
+Route::post('/store/reservation', 'HotelController@store')->name('hotel.store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
