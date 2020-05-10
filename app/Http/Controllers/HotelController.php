@@ -90,4 +90,24 @@ class HotelController extends Controller
 
       return redirect()->route('inicio')->with('success_message', 'Tu reservación está lista');
     }
+
+    public function rooms()
+    {
+      return view('layouts.rooms');
+    }
+
+    public function restaurant()
+    {
+      return view('layouts.restaurant');
+    }
+
+    public function about()
+    {
+      return view('layouts.about');
+    }
+
+    public function contact()
+    {
+      return view('layouts.contact');
+    }
 }

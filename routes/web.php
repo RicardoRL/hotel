@@ -21,6 +21,10 @@ Route::get('/', function () {
 Route::post('/verificar', 'HotelController@disponibilidad')->name('hotel.disponibilidad');
 Route::get('/cliente', 'HotelController@showClientForm')->name('hotel.form');
 Route::post('/store/reservation', 'HotelController@store')->name('hotel.store');
+Route::get('/habitaciones', 'HotelController@rooms')->name('hotel.rooms');
+Route::get('/restaurante', 'HotelController@restaurant')->name('hotel.restaurant');
+Route::get('/acerca_de', 'HotelController@about')->name('hotel.about');
+Route::get('/contacto', 'HotelController@contact')->name('hotel.contact');
 
 Auth::routes();
 

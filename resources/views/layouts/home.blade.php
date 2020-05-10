@@ -115,5 +115,4 @@
 @include('partials.services_options')
 @include('partials.about_rooms')
 @include('partials.video_presentation')
-@include('partials.restaurant_menu')
 @endsection
