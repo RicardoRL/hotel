@@ -25,6 +25,8 @@ Route::get('/habitaciones', 'HotelController@rooms')->name('hotel.rooms');
 Route::get('/restaurante', 'HotelController@restaurant')->name('hotel.restaurant');
 Route::get('/acerca_de', 'HotelController@about')->name('hotel.about');
 Route::get('/contacto', 'HotelController@contact')->name('hotel.contact');
+Route::get('/admin/menu', 'HotelController@adm')->name('hotel.adm');
+Route::get('/admin/menu/reservation/checkin', 'HotelController@checkinOption')->name('hotel.checkinOption');
 
 Auth::routes();
 
