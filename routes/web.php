@@ -24,6 +24,7 @@ Route::post('/admin/update/reservation', 'HotelController@updateCheckin')->name(
 Route::post('/admin/update/checkout', 'HotelController@updateCheckout')->name('hotel.updCheckout');
 Route::post('/admin/update/availability', 'HotelController@setAvailability')->name('hotel.setAvailability');
 Route::post('/admin/update/cleaning', 'HotelController@sendCleaning')->name('hotel.sendCleaning');
+Route::post('/admin/filter', 'HotelController@filterById')->name('hotel.filterById');
 Route::get('/cliente/form', 'HotelController@showClientForm')->name('hotel.form');
 Route::get('/habitaciones/disponibles', 'HotelController@rooms')->name('hotel.rooms');
 Route::get('/restaurante', 'HotelController@restaurant')->name('hotel.restaurant');
@@ -38,5 +39,8 @@ Route::get('/admin/menu/rooms/available', 'HotelController@availableOption')->na
 Route::get('/admin/menu/rooms/busy', 'HotelController@busyOption')->name('hotel.busyOption');
 Route::get('/admin/menu/rooms/out', 'HotelController@outOption')->name('hotel.outOption');
 Route::get('/admin/menu/rooms/cleaning', 'HotelController@cleaningOption')->name('hotel.cleaningOption');
+Route::get('/admin/menu/invoices', 'HotelController@invoiceOption')->name('hotel.invoiceOption');
+Route::get('/admin/menu/ecards', 'HotelController@ecardOption')->name('hotel.ecardOption');
+Route::get('/admin/menu/ecards/access', 'HotelController@accessOption')->name('hotel.accessOption');
 
 Route::get('/home', 'HomeController@index')->name('home');

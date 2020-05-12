@@ -69,7 +69,7 @@
             </li>
             <li><a href="#invoicesDropdown" aria-expanded="false" data-toggle="collapse">Facturas</a>
               <ul id="invoicesDropdown" class="collapse list-unstyled ">
-                <li><a href="#">Ver facturas</a></li>
+                <li><a href="{{route('hotel.invoiceOption')}}">Ver facturas</a></li>
               </ul>
             </li>
             <li><a href="#roomsDropdown" aria-expanded="false" data-toggle="collapse">Habitaciones</a>
@@ -82,8 +82,8 @@
             </li>
             <li><a href="#ecardsDropdown" aria-expanded="false" data-toggle="collapse">Tarjetas electrónicas</a>
               <ul id="ecardsDropdown" class="collapse list-unstyled ">
-                <li><a href="#">Asignadas</a></li>
-                <li><a href="#">Control de accesos</a></li>
+                <li><a href="{{route('hotel.ecardOption')}}">Asignadas</a></li>
+                <li><a href="{{route('hotel.accessOption')}}">Control de accesos</a></li>
               </ul>
             </li>
             <li><a href="#accountDropdown" aria-expanded="false" data-toggle="collapse">Cuenta</a>

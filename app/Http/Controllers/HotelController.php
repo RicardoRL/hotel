@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Room;
 use App\Client;
+use App\Invoice;
 use App\Reservation;
+use App\DoorOpening;
 use App\ElectronicCard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -250,5 +252,53 @@ class HotelController extends Controller
     $room->save();
 
     return redirect()->route('hotel.cleaningOption');
+  }
+
+  public function invoiceOption()
+  {
+    $facturas = Invoice::all();
+
+    return view('menu-options.invoices', compact('facturas'));
+  }
+
+  public function ecardOption()
+  {
+    $ecards = ElectronicCard::where('estado', 1)->get();
+
+    return view('menu-options.ecards-assigned', compact('ecards'));
+  }
+
+  public function accessOption(Request $request)
+  {
+    $reservations = Reservation::where('hora_llegada', '!=', NULL)->where('hora_salida', NULL)->get()->all();
+    
+    $door_openings = array();
+    $clients_id = array();
+
+    if(empty($request->old('client_id')))
+    {
+      foreach($reservations as $reservation)
+      {
+        $clients_id[] = $reservation->client_id;
+        $door_openings[] = DoorOpening::where('client_id', $reservation->client_id)->get()->all();
+      }
+    }
+    else{
+      foreach($reservations as $reservation)
+      {
+        $clients_id[] = $reservation->client_id;
+      }
+      $door_openings[] = DoorOpening::where('client_id', $request->old('client_id'))->get()->all();
+    }
+
+    return view('menu-options.ecards-door-openings', compact('door_openings', 'clients_id'));
+  }
+
+  public function filterById(Request $request)
+  {
+    //dd($request->input('client_id'));
+    $request->flash();
+
+    return redirect()->route('hotel.accessOption');
   }
 }
