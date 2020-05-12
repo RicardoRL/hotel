@@ -6,7 +6,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <h4>Entradas</h4>
+          <h4>Huéspedes</h4>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -16,31 +16,30 @@
                   <th>Id</th>
                   <th>Nombre</th>
                   <th>Apellido</th>
-                  <th>Habitación</th>
+                  <th># Habitacion</th>
                   <th>Check-In</th>
-                  <th>Hora de llegada</th>
+                  <th>Check-Out</th>
                 </tr>
               </thead>
               <tbody>
                 @foreach($reservaciones as $reservacion)
-                  <form action="{{route('hotel.updCheckin')}}" method="POST">
+                  <form action="#" method="#">
                     @csrf
                     <tr>
                       <th scope="row">{{$reservacion->id}}</th>
                       <td>{{$reservacion->getClientName($reservacion->client_id)}}</td>
                       <td>{{$reservacion->getClientLastname($reservacion->client_id)}}</td>
-                      <td>{{$reservacion->tipo_hab}}</td>
+                      <td>{{$reservacion->getRoomNumber($reservacion->room_id)}}</td>
                       <td>{{$reservacion->check_in}}</td>
-
+                      <td>{{$reservacion->check_out}}</td>
+                      
                       <input type="hidden" value="{{$reservacion->id}}" name="reserv_id"></input>
                       <input type="hidden" value="{{$reservacion->getClientName($reservacion->client_id)}}" name="cliente_name"></input>
                       <input type="hidden" value="{{$reservacion->getClientLastname($reservacion->client_id)}}" name="cliente_lastname"></input>
-                      <input type="hidden" value="{{$reservacion->tipo_hab}}" name="tipo_hab"></input>
+                      <input type="hidden" value="{{$reservacion->getRoomNumber($reservacion->room_id)}}" name="numero_hab"></input>
                       <input type="hidden" value="{{$reservacion->check_in}}" name="reserv_checkin"></input>
-                      <td>
-                        <input type="time" name="hora_llegada">
-                      </td>
-                      <td><input type="submit" value="Check-in" class="btn btn-success"></input></td>
+                      <input type="hidden" value="{{$reservacion->check_out}}" name="reserv_checkout"></input>
+                      <td><input type="submit" value="Actualizar check-out" class="btn btn-info"></input></td>
                     </tr>
                   </form>
                 @endforeach

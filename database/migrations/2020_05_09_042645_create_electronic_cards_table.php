@@ -16,7 +16,7 @@ class CreateElectronicCardsTable extends Migration
         Schema::create('electronic_cards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('client_id')->nullable();
-            $table->integer('room_id');
+            $table->integer('room_id')->nullable();;
             $table->tinyInteger('estado');
             $table->timestamps();
         });

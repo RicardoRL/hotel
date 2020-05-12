@@ -19,15 +19,24 @@ Route::get('/', function () {
 })->name('inicio');
 
 Route::post('/verificar', 'HotelController@disponibilidad')->name('hotel.disponibilidad');
-Route::get('/cliente', 'HotelController@showClientForm')->name('hotel.form');
 Route::post('/store/reservation', 'HotelController@store')->name('hotel.store');
-Route::get('/habitaciones', 'HotelController@rooms')->name('hotel.rooms');
+Route::post('/admin/update/reservation', 'HotelController@updateCheckin')->name('hotel.updCheckin');
+Route::post('/admin/update/checkout', 'HotelController@updateCheckout')->name('hotel.updCheckout');
+Route::post('/admin/update/availability', 'HotelController@setAvailability')->name('hotel.setAvailability');
+Route::post('/admin/update/cleaning', 'HotelController@sendCleaning')->name('hotel.sendCleaning');
+Route::get('/cliente/form', 'HotelController@showClientForm')->name('hotel.form');
+Route::get('/habitaciones/disponibles', 'HotelController@rooms')->name('hotel.rooms');
 Route::get('/restaurante', 'HotelController@restaurant')->name('hotel.restaurant');
 Route::get('/acerca_de', 'HotelController@about')->name('hotel.about');
 Route::get('/contacto', 'HotelController@contact')->name('hotel.contact');
 Route::get('/admin/menu', 'HotelController@adm')->name('hotel.adm');
 Route::get('/admin/menu/reservation/checkin', 'HotelController@checkinOption')->name('hotel.checkinOption');
-
-Auth::routes();
+Route::get('/admin/menu/reservation/checkout', 'HotelController@checkoutOption')->name('hotel.checkoutOption');
+Route::get('/admin/menu/reservation/guests', 'HotelController@guestsOption')->name('hotel.guestsOption');
+Route::get('/admin/menu/reservation/cancel', 'HotelController@cancelOption')->name('hotel.cancelOption');
+Route::get('/admin/menu/rooms/available', 'HotelController@availableOption')->name('hotel.availableOption');
+Route::get('/admin/menu/rooms/busy', 'HotelController@busyOption')->name('hotel.busyOption');
+Route::get('/admin/menu/rooms/out', 'HotelController@outOption')->name('hotel.outOption');
+Route::get('/admin/menu/rooms/cleaning', 'HotelController@cleaningOption')->name('hotel.cleaningOption');
 
 Route::get('/home', 'HomeController@index')->name('home');

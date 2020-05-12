@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +12,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        $this->truncatetables([
+          'rooms',
+          'electronic_cards'
+        ]);
+
+        $this->call(RoomSeeder::class);
+        $this->call(ElectronicCardSeeder::class);
+    }
+
+    protected function truncatetables(array $tables) // Tablas de areglo que queremos vaciar
+    {
+        foreach ($tables as $table) {
+           DB::table($table)->truncate();
+        }
     }
 }

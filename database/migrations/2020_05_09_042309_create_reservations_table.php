@@ -17,9 +17,12 @@ class CreateReservationsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('client_id')->nullable();
             $table->integer('room_id')->nullable();
+            $table->string('tipo_hab');
             $table->date('check_in');
             $table->date('check_out');
-            $table->time('hora_llegada');
+            $table->time('hora_llegada')->nullable();
+            $table->time('hora_salida')->nullable();
+            $table->tinyInteger('cancelacion')->default(0);
             $table->timestamps();
         });
     }

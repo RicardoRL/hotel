@@ -13,25 +13,59 @@ class HotelController extends Controller
 {
   public function __construct()
   {
-      $this->middleware('auth')->except('logout');
+      $this->middleware('auth')->except([
+        'logout',
+        'rooms',
+        'restaurant',
+        'about',
+        'contact',
+        'disponibilidad',
+        'showClientForm',
+        'store'
+      ]);
+  }
+
+  public function rooms()
+  {
+    return view('layouts.rooms');
+  }
+
+  public function restaurant()
+  {
+    return view('layouts.restaurant');
+  }
+
+  public function about()
+  {
+    return view('layouts.about');
+  }
+
+  public function contact()
+  {
+    return view('layouts.contact');
+  }
+
+  public function adm()
+  {
+    return view('layouts.admin');
   }
 
   public function disponibilidad(Request $request)
   {
+    //dd($request);
     $rooms = Room::getDisponibles($request->input('cuartos'));
     foreach($request->all() as $field)
     {
       if(empty($field))
       {
-        return redirect()->back()->with('error_message','Datos incompletos, no es posible verificar disponibilidad');
+        return redirect()->route('inicio')->with('error_message','Datos incompletos, no es posible verificar disponibilidad');
       }
     }
 
     if($rooms == 0)
     {
-      return redirect()->back()->with('error_message', "No hay habitaciones disponibles");
+      return redirect()->route('inicio')->with('error_message', "No hay habitaciones disponibles");
     }
-
     $request->flash();
 
     return redirect()->route('hotel.form')->with('rooms', $rooms);
@@ -85,6 +119,7 @@ class HotelController extends Controller
     }
 
     $reservacion->client_id = $cliente_id;
+    $reservacion->tipo_hab = $request->tipo_cuarto;
     $reservacion->check_in = $request->check_in;
     $reservacion->check_out = $request->check_out;
 
@@ -97,40 +132,123 @@ class HotelController extends Controller
     return redirect()->route('inicio')->with('success_message', 'Tu reservación está lista');
   }
 
-  public function rooms()
-  {
-    return view('layouts.rooms');
-  }
-
-  public function restaurant()
-  {
-    return view('layouts.restaurant');
-  }
-
-  public function about()
-  {
-    return view('layouts.about');
-  }
-
-  public function contact()
-  {
-    return view('layouts.contact');
-  }
-
-  public function adm()
-  {
-    return view('layouts.admin');
-  }
-
   public function checkinOption()
   {
-    $reservaciones = Reservation::all();
-    /*foreach($reservaciones as $reservacion)
-    {
-      $cliente = $reservacion->getClientLastname($reservacion->client_id);
-      dd($reservacion->hora_llegada);
-    }
-    dd($reservaciones->all());*/
+    $reservaciones = Reservation::where('hora_llegada', NULL)->get();
+
     return view('menu-options.reservation-checkin', compact('reservaciones'));
+  }
+
+  public function updateCheckin(Request $request)
+  {
+    $room = Room::where('tipo', $request->tipo_hab)->where('disponible', 0)->where('en_uso', 0)->first();
+    $room_id = $room->id;
+    $room->en_uso = 1;
+    //dd($room);
+    $room->save();
+
+    $reservation = Reservation::where('id', $request->reserv_id)->get()[0];
+    $reservation->hora_llegada = $request->hora_llegada;
+    $reservation->room_id = $room_id;
+    //dd($reservation);
+    $reservation->save();
+
+    $ecard = ElectronicCard::where('estado', 0)->first();
+    $ecard->client_id = $reservation->client_id;
+    $ecard->room_id = $room_id;
+    $ecard->estado = 1;
+    //dd($ecard);
+    $ecard->save();
+    return redirect()->route('hotel.checkinOption');
+  }
+
+  public function checkoutOption()
+  {
+    //$currdate = date('Y-m-d');
+    $reservaciones = Reservation::where('hora_llegada', '!=', NULL)->where('hora_salida', NULL)->get();
+
+    return view('menu-options.reservation-checkout', compact('reservaciones'));
+  }
+
+  public function updateCheckout(Request $request)
+  {
+    $room = Room::where('numero', $request->numero_hab)->first();
+    $room->disponible = 1;
+    $room->en_uso = 0;
+    //dd($room);
+    $room->save();
+
+    $reservation = Reservation::where('id', $request->reserv_id)->get()[0];
+    $reservation->hora_salida = $request->hora_salida;
+    //dd($reservation);
+    $reservation->save();
+
+    $ecard = ElectronicCard::where('client_id', $reservation->client_id)->first();
+    $ecard->client_id = NULL;
+    $ecard->room_id = NULL;
+    $ecard->estado = 0;
+    //dd($ecard);
+    $ecard->save();
+    return redirect()->route('hotel.checkoutOption');
+  }
+
+  public function guestsOption()
+  {
+    $reservaciones = Reservation::where('hora_llegada', '!=', NULL)->where('hora_salida', NULL)->get();
+
+    return view('menu-options.reservation-guests', compact('reservaciones'));
+  }
+
+  public function cancelOption()
+  {
+    $reservaciones = Reservation::where('hora_llegada', NULL)->get();
+
+    return view('menu-options.reservation-cancellation', compact('reservaciones'));
+  }
+
+  public function availableOption()
+  {
+    $rooms = Room::where('disponible', 1)->get();
+
+    return view('menu-options.rooms-available', compact('rooms'));
+  }
+
+  public function busyOption()
+  {
+    $rooms = Room::where('disponible', 0)->where('en_uso', 1)->get();
+
+    return view('menu-options.rooms-busy', compact('rooms'));
+  }
+
+  public function outOption()
+  {
+    $rooms = Room::where('disponible', 1)->where('en_uso', 0)->get();
+
+    return view('menu-options.rooms-outofservice', compact('rooms'));
+  }
+
+  public function setAvailability(Request $request)
+  {
+    $room = Room::where('id', $request->room_id)->first();
+    $room->habilitada = ($request->room_available == 1) ? 0 : 1;
+    $room->save();
+
+    return redirect()->route('hotel.outOption');
+  }
+
+  public function cleaningOption()
+  {
+    $rooms = Room::all();
+
+    return view('menu-options.rooms-cleaning', compact('rooms'));
+  }
+
+  public function sendCleaning(Request $request)
+  {
+    $room = Room::where('id', $request->room_id)->first();
+    $room->limpieza = ($request->room_cleaning == 1) ? 0 : 1;
+    $room->save();
+
+    return redirect()->route('hotel.cleaningOption');
   }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Client;
+use App\Room;
 use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
@@ -10,6 +11,11 @@ class Reservation extends Model
   public function client()
   {
     return $this->belongsTo('App\Client');
+  }
+
+  public function room()
+  {
+    return $this->belongsTo('App\Room');
   }
 
   public function getClientName($client_id)
@@ -36,5 +42,12 @@ class Reservation extends Model
     }
     
     return $apellido;
+  }
+
+  public function getRoomNumber($room_id)
+  {
+    $room_number = Room::where('id', $room_id)->first()->numero;
+
+    return $room_number;
   }
 }

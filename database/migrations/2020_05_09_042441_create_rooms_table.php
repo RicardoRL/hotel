@@ -19,6 +19,7 @@ class CreateRoomsTable extends Migration
             $table->string('tipo');
             $table->integer('precio');
             $table->tinyInteger('disponible');
+            $table->tinyInteger('en_uso');
             $table->tinyInteger('habilitada');
             $table->tinyInteger('limpieza');
             $table->timestamps();

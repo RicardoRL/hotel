@@ -6,7 +6,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <h4>Entradas</h4>
+          <h4>Cancelaciones</h4>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -18,7 +18,6 @@
                   <th>Apellido</th>
                   <th>Habitación</th>
                   <th>Check-In</th>
-                  <th>Hora de llegada</th>
                 </tr>
               </thead>
               <tbody>
@@ -37,10 +36,8 @@
                       <input type="hidden" value="{{$reservacion->getClientLastname($reservacion->client_id)}}" name="cliente_lastname"></input>
                       <input type="hidden" value="{{$reservacion->tipo_hab}}" name="tipo_hab"></input>
                       <input type="hidden" value="{{$reservacion->check_in}}" name="reserv_checkin"></input>
-                      <td>
-                        <input type="time" name="hora_llegada">
-                      </td>
-                      <td><input type="submit" value="Check-in" class="btn btn-success"></input></td>
+                      
+                      <td><input type="submit" value="Cancelar" class="btn btn-danger"></input></td>
                     </tr>
                   </form>
                 @endforeach

@@ -15,6 +15,7 @@ class CreateDoorOpeningsTable extends Migration
     {
         Schema::create('door_openings', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('electronic_card_id')->nullable();
             $table->string('lugar');
             $table->date('fecha_apertura');
             $table->time('hora_apertura');

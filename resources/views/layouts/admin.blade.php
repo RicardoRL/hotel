@@ -62,9 +62,9 @@
             <li><a href="#reservationsDropdown" aria-expanded="false" data-toggle="collapse">Reservaciones</a>
               <ul id="reservationsDropdown" class="collapse list-unstyled ">
                 <li><a href="{{route('hotel.checkinOption')}}">Entradas</a></li>
-                <li><a href="#">Salidas</a></li>
-                <li><a href="#">Hospedados</a></li>
-                <li><a href="#">Cancelaciones</a></li>
+                <li><a href="{{route('hotel.checkoutOption')}}">Salidas</a></li>
+                <li><a href="{{route('hotel.guestsOption')}}">Hospedados</a></li>
+                <li><a href="{{route('hotel.cancelOption')}}">Cancelaciones</a></li>
               </ul>
             </li>
             <li><a href="#invoicesDropdown" aria-expanded="false" data-toggle="collapse">Facturas</a>
@@ -74,10 +74,10 @@
             </li>
             <li><a href="#roomsDropdown" aria-expanded="false" data-toggle="collapse">Habitaciones</a>
               <ul id="roomsDropdown" class="collapse list-unstyled ">
-                <li><a href="#">Disponibles</a></li>
-                <li><a href="#">Ocupadas</a></li>
-                <li><a href="#">Fuera de servicio</a></li>
-                <li><a href="#">Control de limpieza</a></li>
+                <li><a href="{{route('hotel.availableOption')}}">Disponibles</a></li>
+                <li><a href="{{route('hotel.busyOption')}}">Ocupadas</a></li>
+                <li><a href="{{route('hotel.outOption')}}">Fuera de servicio</a></li>
+                <li><a href="{{route('hotel.cleaningOption')}}">Control de limpieza</a></li>
               </ul>
             </li>
             <li><a href="#ecardsDropdown" aria-expanded="false" data-toggle="collapse">Tarjetas electrónicas</a>
